@@ -2,6 +2,8 @@ package eredua;
 
 public class ostatuak {
 	
+	
+
 	private String ID_SIGNATURA;
 	private String OSTATU_IZENA;
 	private String DESKRIBAPENA;
@@ -17,15 +19,21 @@ public class ostatuak {
  	private String ADISKIDETSU_URL;
  	private String ZIP_URL;
  	private int POSTA_KODEA ;
- 	private String HERRIA;
- 	private String PROBINTZIA;
- 	private String UDALERRIA;
+ 	private String HERRI_KODEA;
+ 	
+ 	
+ 
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	public ostatuak(String iD_SIGNATURA, String oSTATU_IZENA, String dESKRIBAPENA, String oSTATU_HELBIDEA, String mARKA,
 			String oSTATU_EMAIL, String oSTATU_TELEFONOA, int pERTSONA_TOT, double lATITUDE, double lONGITUDE,
-			String mOTA, String wEB_URL, String aDISKIDETSU_URL, String zIP_URL, int pOSTA_KODEA, String hERRIA,
-			String pROBINTZIA, String uDALERRIA) {
-	
+			String mOTA, String wEB_URL, String aDISKIDETSU_URL, String zIP_URL, int pOSTA_KODEA, String hERRI_KODEA) {
+		
 		ID_SIGNATURA = iD_SIGNATURA;
 		OSTATU_IZENA = oSTATU_IZENA;
 		DESKRIBAPENA = dESKRIBAPENA;
@@ -41,11 +49,11 @@ public class ostatuak {
 		ADISKIDETSU_URL = aDISKIDETSU_URL;
 		ZIP_URL = zIP_URL;
 		POSTA_KODEA = pOSTA_KODEA;
-		HERRIA = hERRIA;
-		PROBINTZIA = pROBINTZIA;
-		UDALERRIA = uDALERRIA;
+		HERRI_KODEA = hERRI_KODEA;
 	}
-
+	public ostatuak() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getID_SIGNATURA() {
 		return ID_SIGNATURA;
 	}
@@ -165,30 +173,14 @@ public class ostatuak {
 	public void setPOSTA_KODEA(int pOSTA_KODEA) {
 		POSTA_KODEA = pOSTA_KODEA;
 	}
-
-	public String getHERRIA() {
-		return HERRIA;
+	public String getHERRI_KODEA() {
+		return HERRI_KODEA;
+	}
+	public void setHERRI_KODEA(String hERRI_KODEA) {
+		HERRI_KODEA = hERRI_KODEA;
 	}
 
-	public void setHERRIA(String hERRIA) {
-		HERRIA = hERRIA;
-	}
 
-	public String getPROBINTZIA() {
-		return PROBINTZIA;
-	}
-
-	public void setPROBINTZIA(String pROBINTZIA) {
-		PROBINTZIA = pROBINTZIA;
-	}
-
-	public String getUDALERRIA() {
-		return UDALERRIA;
-	}
-
-	public void setUDALERRIA(String uDALERRIA) {
-		UDALERRIA = uDALERRIA;
-	}
  	
  	
  	
