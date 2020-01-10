@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +17,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import net.codejava.hibernate.*;
 import eredua.ostatuak;
 import ikuspegia.P1;
 import javax.xml.parsers.DocumentBuilder;
@@ -41,8 +43,8 @@ public class MenuKontroladorea {
  	private String ZIP_Tag;
  	private int POSTA_KODEA_Tag;
  	private String HERRI_KODEA_Tag;
- 	ostatuak osi =  new ostatuak();
- 	ArrayList<ostatuak> zerrenda;
+ 	
+ 	public List<ostatuak> zerrenda;
    
 	
 	
@@ -54,6 +56,7 @@ public class MenuKontroladorea {
 			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
 			String entrada;
 			String cadena = "";
+			zerrenda= new ArrayList();
 
 			while ((entrada = br.readLine()) != null) {
 				cadena = cadena + entrada;
@@ -70,7 +73,7 @@ public class MenuKontroladorea {
 
 			NodeList nodeLista = documento.getElementsByTagName("row");
 //			System.out.println("Informacion de los libros");
-			zerrenda = new ArrayList<>();
+			
 			for (int s = 0; s < nodeLista.getLength(); s++) {
 
 				Node primerNodo = nodeLista.item(s);
@@ -96,37 +99,21 @@ public class MenuKontroladorea {
 			e.printStackTrace();
 		}
 		
+		ostatuManager ost =  new ostatuManager();
+		
+		for(ostatuak ostatu : zerrenda) {
+			try {
+				ost.main(ostatu);
+			}catch(Exception e) {
+				System.out.println(ostatu);
+			}
+			
+			
+		}
 		
 		
 		
-		
-		
-//		try {
-//			   URL url = new URL("https://opendata.euskadi.eus/contenidos/ds_recursos_turisticos/hoteles_de_euskadi/opendata/alojamientos.json");
-//			   JsonFactory factory = new JsonFactory();
-//			   JsonParser parser = factory.createParser(url);
-////			   URLConnection urlCon = url.openConnection();
-////			   InputStream is = url.openStream();
-////			   JsonReader rdr = Json.createReader(is);
-////			   JsonObject obj = rdr.readObject();
-////			   JsonArray results = obj.getJsonArray("data");
-////			   InputStream is = url.openStream();
-////			   javax.json.stream.JsonParser parser = Json.createParser(is);
-//			   while (!parser.isClosed()) {
-//			        // leer el elemento
-//			        JsonToken token = parser.nextToken();
-//			        // si la llamada a nextToken devuelve null, se ha alcanzado el final del fichero
-//			        if (token == null)
-//			            break;
-//			 
-//			        // Procesar el elemento leido
-//			         String margen = "";
-////			         procesaValorJSON(token, parser, margen);
-//			    }
-//				      
-//			} catch (Exception e) {
-//			   System.out.println(e.getMessage());
-//			}
+
 		
 			
 		 
@@ -156,7 +143,6 @@ public class MenuKontroladorea {
 
 			NodeList nodeLista = documento.getElementsByTagName("row");
 //			System.out.println("Informacion de los libros");
-			zerrenda = new ArrayList<>();
 			for (int s = 0; s < nodeLista.getLength(); s++) {
 
 				Node primerNodo = nodeLista.item(s);
@@ -182,6 +168,47 @@ public class MenuKontroladorea {
 	
 	public void datuakKargatuOstatu() throws IOException{
 		
+		try {
+
+			URL url = new URL("http://opendata.euskadi.eus/contenidos/ds_recursos_turisticos/alojamientos_rurales_euskadi/opendata/ostatuak.xml");
+			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+			String entrada;
+			String cadena = "";
+
+			while ((entrada = br.readLine()) != null) {
+				cadena = cadena + entrada;
+			}
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+
+			InputSource archivo = new InputSource();
+			archivo.setCharacterStream(new StringReader(cadena));
+
+			Document documento = db.parse(archivo);
+			documento.getDocumentElement().normalize();
+
+			NodeList nodeLista = documento.getElementsByTagName("row");
+//			System.out.println("Informacion de los libros");
+			
+			for (int s = 0; s < nodeLista.getLength(); s++) {
+
+				Node primerNodo = nodeLista.item(s);
+
+				if (primerNodo.getNodeType() == Node.ELEMENT_NODE) {
+
+					Element primerElemento = (Element) primerNodo;
+					
+					addElement(primerElemento);
+						
+						
+					
+
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -246,8 +273,9 @@ public class MenuKontroladorea {
 	
 	public void addElement(Element primerElemento) throws SAXException {
 		String tags[] = {"signatura","documentname","turismdescription","address","marks",
-	    	       "tourismemail","phone","capacity","latwgs84","lonwgs84","lodgingtype","web","friendlyurl","zipfile","postalcode","territorycode","object"};
+	    	       "tourismemail","phone","capacity","latwgs84","lonwgs84","lodgingtype","web","friendlyurl","zipfile","postalcode","municipalitycode"};
 		String obtenido="";
+		ostatuak osi =  new ostatuak();
 		for(int s = 0; s < tags.length; s++) {
 			try {
 				obtenido = primerElemento.getElementsByTagName(tags[s]).item(0).getTextContent();
@@ -255,57 +283,74 @@ public class MenuKontroladorea {
 				obtenido="";
 			}
 			
-	        switch (tags[s]) {
-	            case "signatura":
+	        switch (s) {
+	            case 0:
 	            	osi.setID_SIGNATURA(obtenido);
 	                break;
-	            case "documentname":
+	            case 1:
 	            	osi.setOSTATU_IZENA(obtenido);
 	                break;
-	            case "turismdescription":
+	            case 2:
 	            	osi.setDESKRIBAPENA(obtenido);
 	                break;
-	            case "address":
+	            case 3:
 	            	osi.setOSTATU_HELBIDEA(obtenido);
 	                break;
-	            case "marks":
+	            case 4:
 	            	osi.setMARKA(obtenido);
 	                break;
-	            case "tourismemail":
+	            case 5:
 	            	osi.setOSTATU_EMAIL(obtenido);
 	                break;
-	            case "phone":
+	            case 6:
 	                osi.setOSTATU_TELEFONOA(obtenido);
 	                break;
-	            case "capacity":
+	            case 7:
 	            	osi.setPERTSONA_TOT(Integer.parseInt(obtenido));
 	                break;
-	            case "latwgs84":
+	            case 8:
+	            	try {
 	               osi.setLATITUDE(Double.parseDouble(obtenido));
+	            	}catch(Exception o){
+	            		osi.setLATITUDE(0.0);
+	               }
+	            	
 	                break;
-	            case "lonwgs84":
+	            case 9:
+	            	try {
 	                osi.setLONGITUDE(Double.parseDouble(obtenido));
+	            	}catch(Exception l) {
+	            		osi.setLATITUDE(0.0);
+	            	}
 	                break;
-	            case "lodgingtype":
+	            case 10:
 	            	osi.setMOTA(obtenido);
 	                break;
-	            case "web":
+	            case 11:
 	                osi.setWEB_URL(obtenido);
 	                break;
-	            case "friendlyurl":
+	            case 12:
 	                osi.setADISKIDETSU_URL(obtenido);
 	                break;
-	            case "zipfile":
+	            case 13:
 	            	osi.setZIP_URL(obtenido);
 	                break;
-	            case "postalcode":
+	            case 14:
+	            	try {
 	                osi.setPOSTA_KODEA(Integer.parseInt(obtenido));
+	            	}catch(Exception kk) {
+	            		osi.setPOSTA_KODEA(1000);
+	            		osi.setHERRI_KODEA("000");
+	            		s=s+2;
+	            		
+	            	}
+	            	
 	                break;
-	            case "territorycode":
+	            case 15:
 	                osi.setHERRI_KODEA(obtenido);
 	                break;
-	            case "object":
-	            	zerrenda.add(osi);
+	            case 16:
+	            	
 	            	break;                   
 	            default:
 	                break;
@@ -313,8 +358,7 @@ public class MenuKontroladorea {
 			
 		}}
 		
-		
-	
+		zerrenda.add(osi);
         
     }
 	

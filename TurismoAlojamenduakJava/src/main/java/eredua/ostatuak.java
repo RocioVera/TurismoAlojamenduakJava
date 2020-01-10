@@ -1,5 +1,12 @@
 package eredua;
+import javax.persistence.*;
 
+
+
+
+
+@Entity
+@Table(name = "ostatuak")
 public class ostatuak {
 	
 	
@@ -30,30 +37,13 @@ public class ostatuak {
  	
  	
  	
- 	public ostatuak(String iD_SIGNATURA, String oSTATU_IZENA, String dESKRIBAPENA, String oSTATU_HELBIDEA, String mARKA,
-			String oSTATU_EMAIL, String oSTATU_TELEFONOA, int pERTSONA_TOT, double lATITUDE, double lONGITUDE,
-			String mOTA, String wEB_URL, String aDISKIDETSU_URL, String zIP_URL, int pOSTA_KODEA, String hERRI_KODEA) {
-		
-		ID_SIGNATURA = iD_SIGNATURA;
-		OSTATU_IZENA = oSTATU_IZENA;
-		DESKRIBAPENA = dESKRIBAPENA;
-		OSTATU_HELBIDEA = oSTATU_HELBIDEA;
-		MARKA = mARKA;
-		OSTATU_EMAIL = oSTATU_EMAIL;
-		OSTATU_TELEFONOA = oSTATU_TELEFONOA;
-		PERTSONA_TOT = pERTSONA_TOT;
-		LATITUDE = lATITUDE;
-		LONGITUDE = lONGITUDE;
-		MOTA = mOTA;
-		WEB_URL = wEB_URL;
-		ADISKIDETSU_URL = aDISKIDETSU_URL;
-		ZIP_URL = zIP_URL;
-		POSTA_KODEA = pOSTA_KODEA;
-		HERRI_KODEA = hERRI_KODEA;
-	}
+ 
 	public ostatuak() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Id
+	@Column(name = "ID_SIGNATURA")
 	public String getID_SIGNATURA() {
 		return ID_SIGNATURA;
 	}
@@ -178,6 +168,16 @@ public class ostatuak {
 	}
 	public void setHERRI_KODEA(String hERRI_KODEA) {
 		HERRI_KODEA = hERRI_KODEA;
+	}
+
+	@Override
+	public String toString() {
+		return "ostatuak [ID_SIGNATURA=" + ID_SIGNATURA + ", OSTATU_IZENA=" + OSTATU_IZENA + ", DESKRIBAPENA="
+				+ DESKRIBAPENA + ", OSTATU_HELBIDEA=" + OSTATU_HELBIDEA + ", MARKA=" + MARKA + ", OSTATU_EMAIL="
+				+ OSTATU_EMAIL + ", OSTATU_TELEFONOA=" + OSTATU_TELEFONOA + ", PERTSONA_TOT=" + PERTSONA_TOT
+				+ ", LATITUDE=" + LATITUDE + ", LONGITUDE=" + LONGITUDE + ", MOTA=" + MOTA + ", WEB_URL=" + WEB_URL
+				+ ", ADISKIDETSU_URL=" + ADISKIDETSU_URL + ", ZIP_URL=" + ZIP_URL + ", POSTA_KODEA=" + POSTA_KODEA
+				+ ", HERRI_KODEA=" + HERRI_KODEA + "]";
 	}
 
 
