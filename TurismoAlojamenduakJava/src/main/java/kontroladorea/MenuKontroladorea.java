@@ -81,13 +81,6 @@ public class MenuKontroladorea {
 				if (primerNodo.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element primerElemento = (Element) primerNodo;
-					//System.out.println(primerElemento.getElementsByTagName("signatura").item(0).getTextContent());
-//					NodeList primerNombreElementoLista = primerElemento.getElementsByTagName("signatura");
-//					Element primerNombreElemento = (Element) primerNombreElementoLista.item(0);
-//					NodeList primerNombre = primerNombreElemento.getChildNodes();
-//					titulo = ((Node) primerNombre.item(0)).getNodeValue().toString();
-//					System.out.println(titulo);
-					
 					addElement(primerElemento);
 						
 						
@@ -101,15 +94,16 @@ public class MenuKontroladorea {
 		
 		ostatuManager ost =  new ostatuManager();
 		
-		for(ostatuak ostatu : zerrenda) {
-			try {
-				ost.main(ostatu);
+		
+		try {
+			ost.main(zerrenda);
 			}catch(Exception e) {
-				System.out.println(ostatu);
+				System.out.println(e.getMessage());
+				
 			}
 			
 			
-		}
+		
 		
 		
 		
@@ -127,6 +121,7 @@ public class MenuKontroladorea {
 			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
 			String entrada;
 			String cadena = "";
+			zerrenda= new ArrayList();
 
 			while ((entrada = br.readLine()) != null) {
 				cadena = cadena + entrada;
@@ -162,6 +157,19 @@ public class MenuKontroladorea {
 			e.printStackTrace();
 		}
 		
+		
+	ostatuManager ost =  new ostatuManager();
+		
+		
+			try {
+				ost.main(zerrenda);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+			
+		
+		
 	}
 	
 	
@@ -174,6 +182,7 @@ public class MenuKontroladorea {
 			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
 			String entrada;
 			String cadena = "";
+			zerrenda= new ArrayList();
 
 			while ((entrada = br.readLine()) != null) {
 				cadena = cadena + entrada;
@@ -209,6 +218,19 @@ public class MenuKontroladorea {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	ostatuManager ost =  new ostatuManager();
+		
+		
+			try {
+				ost.main(zerrenda);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				
+			}
+			
+			
+		
 		
 	}
 	
@@ -347,7 +369,9 @@ public class MenuKontroladorea {
 	            	
 	                break;
 	            case 15:
-	                osi.setHERRI_KODEA(obtenido);
+	            	String[] zerr = obtenido.split(" ");
+	                osi.setHERRI_KODEA(zerr[0]);
+	                
 	                break;
 	            case 16:
 	            	

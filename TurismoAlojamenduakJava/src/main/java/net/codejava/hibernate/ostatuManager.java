@@ -1,4 +1,7 @@
 package net.codejava.hibernate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -14,7 +17,7 @@ public class ostatuManager {
 	
 
 	protected SessionFactory sessionFactory;
- 	
+	public StandardServiceRegistry registry;
  	
  	
  	protected void create(ostatuak Ost) {
@@ -32,7 +35,7 @@ public class ostatuManager {
  		sessionFactory.close();
      }
  	protected void setup() {
- 		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+ 				registry = new StandardServiceRegistryBuilder()
  		        .configure() // configures settings from hibernate.cfg.xml
  		        .build();
  		try {
@@ -44,12 +47,23 @@ public class ostatuManager {
      }
  	
  	
- 	public static void main(ostatuak Ost) {
+ 	public static void main(List<ostatuak>zerrenda) {
  		  ostatuManager manager = new ostatuManager();
- 		    manager.setup();
- 		    manager.create(Ost);
+ 		  	manager.setup();
+ 		  	for(ostatuak ost : zerrenda) {
+ 		  		try {
+ 		  		manager.create(ost);
+ 		  		}catch(Exception e) {
+ 		  			System.out.println(e.getMessage());
+ 		  			System.out.println(ost);
+ 		  		}
+ 		  	}
+ 		 
+ 		    
  		    manager.exit();
 
  	}
+ 	
+ 	
 
 }
